@@ -5,8 +5,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -41,18 +43,34 @@ class MainActivity : ComponentActivity() {
         setContent {
             SaborExpressTheme {
                 Surface {
-                    ProductItem()
+                    ProductSection()
                 }
             }
         }
     }
 }
 
-@Preview(showBackground = true)
+@Composable
+fun ProductSection() {
+    Column {
+        textoTitulo(titulo = "Promoções")
+        Row(
+            modifier = Modifier
+                .padding(start = 16.dp, top = 8.dp, bottom = 16.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+
+        ) {
+            ProductItem()
+            ProductItem()
+            ProductItem()
+        }
+    }
+}
+
 @Composable
 fun ProductItem() {
     Surface(
-        modifier = Modifier.padding(16.dp),
         shape = RoundedCornerShape(15.dp),
         shadowElevation = 10.dp,
     ) {
@@ -80,12 +98,12 @@ fun ProductItem() {
                     contentDescription = null,
                     Modifier
                         .size(imageSize)
-                        .offset(y = imageSize/2)
+                        .offset(y = imageSize / 2)
                         .clip(shape = CircleShape)
                         .align(BottomCenter)
                 )
             }
-            Spacer(modifier = Modifier.height(imageSize/2))
+            Spacer(modifier = Modifier.height(imageSize / 2))
             Column(Modifier.padding(16.dp)) {
                 Text(
                     text = LoremIpsum(50).values.first(),
@@ -105,4 +123,26 @@ fun ProductItem() {
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ProductSectionPreview() {
+    ProductSection()
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ProductItemPreview() {
+    ProductItem()
+}
+
+@Composable
+fun textoTitulo(titulo: String) {
+    Text(
+        text = "$titulo",
+        Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp),
+        fontSize = 20.sp,
+        fontWeight = FontWeight(400)
+    )
 }
