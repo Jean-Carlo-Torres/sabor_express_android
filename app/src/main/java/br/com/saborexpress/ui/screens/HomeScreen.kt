@@ -13,11 +13,14 @@ import androidx.compose.ui.unit.dp
 import br.com.saborexpress.R
 import br.com.saborexpress.model.Product
 import br.com.saborexpress.sampledata.sampleProducts
+import br.com.saborexpress.sampledata.sampleSections
 import br.com.saborexpress.ui.components.ProductSection
 import java.math.BigDecimal
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    sections: Map<String, List<Product>>
+) {
     Column(
         Modifier
             .fillMaxSize()
@@ -26,35 +29,19 @@ fun HomeScreen() {
         verticalArrangement = Arrangement.spacedBy(16.dp)
 
     ) {
-        ProductSection("Promoções", listOf(
-            Product(
-                name = "X-Burguer Artesanal",
-                price = BigDecimal("19.99"),
-                image = R.drawable.hamburguer
-            ),
-            Product(
-                name = "X-Salada Artesanal",
-                price = BigDecimal("21.99"),
-                image = R.drawable.hamburguer
-            ),
-            Product(
-                name = "X-Bacon Salada Artesanal",
-                price = BigDecimal("24.99"),
-                image = R.drawable.hamburguer
-            ),
-            Product(
-                name = "X-Frango Artesanal",
-                price = BigDecimal("19.99"),
-                image = R.drawable.hamburguer
+        for (section in sections) {
+            val title = section.key
+            val products = section.value
+            ProductSection(
+                title = title,
+                products = products
             )
-        ))
-        ProductSection("Lanches", sampleProducts)
-        ProductSection("Petiscos", sampleProducts)
+        }
     }
 }
 
 @Preview(showSystemUi = true)
 @Composable
 private fun HomeScreenPreview() {
-    HomeScreen()
+    HomeScreen(sampleSections)
 }

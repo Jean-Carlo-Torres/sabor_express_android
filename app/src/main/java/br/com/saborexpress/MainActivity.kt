@@ -17,6 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import br.com.saborexpress.sampledata.sampleSections
 import br.com.saborexpress.ui.components.ProductSection
 import br.com.saborexpress.ui.screens.HomeScreen
 import br.com.saborexpress.ui.theme.SaborExpressTheme
@@ -34,7 +35,9 @@ class MainActivity : ComponentActivity() {
 fun App() {
     SaborExpressTheme {
         Surface {
-            HomeScreen()
+            HomeScreen(
+                sampleSections
+            )
         }
     }
 }

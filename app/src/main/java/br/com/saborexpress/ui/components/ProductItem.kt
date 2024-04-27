@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import br.com.saborexpress.R
 import br.com.saborexpress.extensions.toBrazilianCurrency
 import br.com.saborexpress.model.Product
+import coil.compose.AsyncImage
 import java.math.BigDecimal
 
 @Composable
@@ -60,15 +61,16 @@ fun ProductItem(product: Product) {
                     )
                     .fillMaxWidth()
             ) {
-                Image(
-                    painter = painterResource(product.image),
+                AsyncImage(
+                    model = product.image,
                     contentDescription = null,
                     Modifier
                         .size(imageSize)
                         .offset(y = imageSize / 2)
                         .clip(shape = CircleShape)
                         .align(Alignment.BottomCenter),
-                    contentScale = ContentScale.Crop
+                    contentScale = ContentScale.Crop,
+                    placeholder = painterResource(id = R.drawable.placeholder)
 
                 )
             }
@@ -100,8 +102,7 @@ private fun ProductItemPreview() {
     ProductItem(
         Product(
             name = LoremIpsum(50).values.first(),
-            price = BigDecimal("0.00"),
-            image = R.drawable.placeholder
+            price = BigDecimal("0.00")
         )
     )
 }
