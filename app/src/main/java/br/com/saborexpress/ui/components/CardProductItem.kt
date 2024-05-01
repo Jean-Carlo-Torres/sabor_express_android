@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import br.com.saborexpress.R
@@ -24,6 +25,7 @@ import br.com.saborexpress.model.Product
 import br.com.saborexpress.sampledata.sampleProducts
 import br.com.saborexpress.ui.theme.SaborExpressTheme
 import coil.compose.AsyncImage
+import java.math.BigDecimal
 
 @Composable
 fun CardProductItem(
@@ -60,12 +62,13 @@ fun CardProductItem(
                     text = product.price.toBrazilianCurrency()
                 )
             }
-            // TODO: adicionar descrição do produto
-            // Text(
-            //     text = product.description,
-            //     Modifier
-            //         .padding(16.dp)
-            // )
+            product.description?.let {
+                Text(
+                    text = product.description,
+                    Modifier
+                        .padding(16.dp)
+                )
+            }
         }
     }
 }
@@ -76,7 +79,26 @@ private fun CardProductItemPreview() {
     SaborExpressTheme {
         Surface {
             CardProductItem(
-                product = sampleProducts.random(),
+                product = Product(
+                    name = "teste",
+                    price = BigDecimal("9.99")
+                ),
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun CardProductItemWithDescriptionPreview() {
+    SaborExpressTheme {
+        Surface {
+            CardProductItem(
+                product = Product(
+                    name = "teste",
+                    price = BigDecimal("9.99"),
+                    description = LoremIpsum(20).values.first()
+                ),
             )
         }
     }

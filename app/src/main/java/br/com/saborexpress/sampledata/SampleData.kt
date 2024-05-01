@@ -1,5 +1,6 @@
 package br.com.saborexpress.sampledata
 
+import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import br.com.saborexpress.R
 import br.com.saborexpress.model.Product
 import java.math.BigDecimal
@@ -50,17 +51,20 @@ val sampleProducts = listOf(
     Product(
         name = "Hambúrguer Artesanal",
         price = BigDecimal("19.99"),
-        image = "https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg"
+        image = "https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg",
+        description = LoremIpsum(20).values.first()
     ),
     Product(
         name = "Batata Frita",
         price = BigDecimal("7.99"),
-        image = "https://images.pexels.com/photos/1583884/pexels-photo-1583884.jpeg"
+        image = "https://images.pexels.com/photos/1583884/pexels-photo-1583884.jpeg",
+        description = LoremIpsum(20).values.first()
     ),
     Product(
         name = "Hot Dog",
         price = BigDecimal("9.99"),
-        image = "https://images.pexels.com/photos/1603901/pexels-photo-1603901.jpeg"
+        image = "https://images.pexels.com/photos/1603901/pexels-photo-1603901.jpeg",
+        description = LoremIpsum(20).values.first()
     ),
     *sampleDrinks.toTypedArray(),
     *sampleCandies.toTypedArray()
