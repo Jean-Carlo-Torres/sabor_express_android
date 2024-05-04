@@ -27,6 +27,7 @@ import br.com.saborexpress.sampledata.sampleProducts
 import br.com.saborexpress.sampledata.sampleSections
 import br.com.saborexpress.ui.components.CardProductItem
 import br.com.saborexpress.ui.components.ProductSection
+import br.com.saborexpress.ui.components.SearchTextField
 
 @Composable
 fun HomeScreen(
@@ -34,7 +35,15 @@ fun HomeScreen(
     searchText: String = ""
 ) {
     Column {
-        var text by remember { mutableStateOf(searchText) }
+        var text by remember {
+            mutableStateOf(searchText)
+        }
+        SearchTextField(
+            searchText = text,
+            onSearchChange = {
+                text = it
+            }
+        )
         val searchedProducts = remember(text) {
             if (text.isNotBlank()) {
                 sampleProducts.filter { product ->
@@ -43,31 +52,10 @@ fun HomeScreen(
                                 text, ignoreCase = true
                             ) ?: false
                 }
-            } else{
+            } else {
                 emptyList()
             }
         }
-        OutlinedTextField(
-            value = text,
-            onValueChange = { value ->
-                text = value
-            },
-            Modifier
-                .padding(16.dp)
-                .fillMaxWidth(),
-            shape = RoundedCornerShape(100),
-            leadingIcon = {
-                Icon(
-                    Icons.Filled.Search, contentDescription = "Icone de lupa"
-                )
-            },
-            label = {
-                Text("Pesquisar")
-            },
-            placeholder = {
-                Text("O que você procura?")
-            }
-        )
         LazyColumn(
             Modifier
                 .fillMaxSize(),
