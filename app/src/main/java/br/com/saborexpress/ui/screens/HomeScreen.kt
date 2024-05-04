@@ -30,10 +30,23 @@ import br.com.saborexpress.ui.components.ProductSection
 
 @Composable
 fun HomeScreen(
-    sections: Map<String, List<Product>>
+    sections: Map<String, List<Product>>,
+    searchText: String = ""
 ) {
     Column {
-        var text by remember { mutableStateOf("") }
+        var text by remember { mutableStateOf(searchText) }
+        val searchedProducts = remember(text) {
+            if (text.isNotBlank()) {
+                sampleProducts.filter { product ->
+                    product.name.contains(text, ignoreCase = true) ||
+                            product.description?.contains(
+                                text, ignoreCase = true
+                            ) ?: false
+                }
+            } else{
+                emptyList()
+            }
+        }
         OutlinedTextField(
             value = text,
             onValueChange = { value ->
@@ -63,25 +76,27 @@ fun HomeScreen(
 
 
         ) {
-            items(sampleProducts) { product ->
-                CardProductItem(
-                    product = product,
-                    modifier = Modifier.padding(
-                        horizontal = 16.dp
+            if (text.isBlank()) {
+                for (section in sections) {
+                    val title = section.key
+                    val products = section.value
+                    item {
+                        ProductSection(
+                            title = title,
+                            products = products
+                        )
+                    }
+                }
+            } else {
+                items(searchedProducts) { product ->
+                    CardProductItem(
+                        product = product,
+                        modifier = Modifier.padding(
+                            horizontal = 16.dp
+                        )
                     )
-                )
+                }
             }
-
-//            for (section in sections) {
-//                val title = section.key
-//                val products = section.value
-//                item {
-//                    ProductSection(
-//                        title = title,
-//                        products = products
-//                    )
-//                }
-//            }
         }
     }
 }
@@ -90,4 +105,10 @@ fun HomeScreen(
 @Composable
 private fun HomeScreenPreview() {
     HomeScreen(sampleSections)
+}
+
+@Preview(showSystemUi = true)
+@Composable
+private fun HomeScreenPreviewWithSearch() {
+    HomeScreen(sampleSections, "Batata")
 }
