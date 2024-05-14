@@ -18,6 +18,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -27,6 +28,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
@@ -120,29 +122,41 @@ fun ProductFormScreen() {
         var price by remember {
             mutableStateOf("")
         }
-        val formatter = remember {
-            DecimalFormat("#0.00")
+        var isPriceError by remember {
+            mutableStateOf(false)
         }
-        TextField(
-            value = price,
-            onValueChange = {
-                try {
-                    price = formatter.format(BigDecimal(it))
-                } catch (e: IllegalArgumentException) {
-                    if (it.isBlank()) {
-                        price = it
+        Column {
+            TextField(
+                value = price,
+                onValueChange = {
+                    isPriceError = try {
+                        BigDecimal(it)
+                        false
+                    } catch (e: IllegalArgumentException) {
+                        it.isNotEmpty()
                     }
-                }
-            },
-            modifier = Modifier.fillMaxWidth(),
-            label = {
-                Text(text = "Preço")
-            },
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Decimal,
-                imeAction = ImeAction.Next
+                    price = it
+                },
+                Modifier.fillMaxWidth(),
+                isError = isPriceError,
+                label = {
+                    Text(text = "Preço")
+                },
+                keyboardOptions =
+                KeyboardOptions(
+                    keyboardType = KeyboardType.Decimal,
+                    imeAction = ImeAction.Next,
+                ),
             )
-        )
+            if (isPriceError) {
+                Text(
+                    text = "Preço deve ser um número decimal",
+                    color = Color.Red,
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(start = 16.dp)
+                )
+            }
+        }
 
         var description by remember {
             mutableStateOf("")
