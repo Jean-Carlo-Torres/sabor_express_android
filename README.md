@@ -14,7 +14,6 @@ O app utiliza a biblioteca do Coil para buscar as imagens dos produtos via URL. 
 * Android
 * Kotlin
 * Jetpack Compose
-* Retrofit
 * Coroutines
 * Coil
 
