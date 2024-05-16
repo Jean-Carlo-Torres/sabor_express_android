@@ -38,18 +38,25 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.saborexpress.R
+import br.com.saborexpress.dao.ProductDao
 import br.com.saborexpress.model.Product
 import br.com.saborexpress.ui.theme.SaborExpressTheme
 import coil.compose.AsyncImage
 import java.math.BigDecimal
 
 class ProductFormActivity : ComponentActivity() {
+
+    private val dao = ProductDao()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             SaborExpressTheme {
                 Surface {
-                    ProductFormScreen()
+                    ProductFormScreen(onSaveClick = { product ->
+                        dao.save(product)
+                        finish()
+                    })
                 }
             }
         }
@@ -57,7 +64,9 @@ class ProductFormActivity : ComponentActivity() {
 }
 
 @Composable
-fun ProductFormScreen() {
+fun ProductFormScreen(
+    onSaveClick: (Product) -> Unit = {}
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -191,6 +200,7 @@ fun ProductFormScreen() {
                     description = description,
                 )
                 Log.i("ProductFormActivity", "ProductFormScreen: ${product.price}")
+                onSaveClick(product)
             },
             modifier = Modifier.fillMaxWidth()
         ) {

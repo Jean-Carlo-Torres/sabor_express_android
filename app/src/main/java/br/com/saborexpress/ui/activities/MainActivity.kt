@@ -15,6 +15,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import br.com.saborexpress.dao.ProductDao
 import br.com.saborexpress.sampledata.sampleCandies
 import br.com.saborexpress.sampledata.sampleDrinks
@@ -75,5 +76,13 @@ fun App(
                 }
             }
         }
+    }
+}
+
+@Preview
+@Composable
+private fun AppPreview() {
+    App {
+        HomeScreen(sections = sampleSections)
     }
 }
