@@ -15,26 +15,45 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import br.com.saborexpress.dao.ProductDao
+import br.com.saborexpress.sampledata.sampleCandies
+import br.com.saborexpress.sampledata.sampleDrinks
 import br.com.saborexpress.sampledata.sampleSections
 import br.com.saborexpress.ui.screens.HomeScreen
 import br.com.saborexpress.ui.theme.SaborExpressTheme
 
 class MainActivity : ComponentActivity() {
+
+    private val dao = ProductDao()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             App(onFabClick = {
-                startActivity(Intent(
-                    this,
-                    ProductFormActivity::class.java
-                ))
-            })
+                startActivity(
+                    Intent(
+                        this,
+                        ProductFormActivity::class.java
+                    )
+                )
+            }){
+                val sections = mapOf(
+                    "Todos produtos" to dao.products(),
+                    "Promoções" to sampleDrinks + sampleCandies,
+                    "Bebidas" to sampleDrinks,
+                    "Doces" to sampleCandies
+                )
+HomeScreen(sections = sections)
+            }
         }
     }
 }
 
 @Composable
-fun App(onFabClick: () -> Unit = {}) {
+fun App(
+    onFabClick: () -> Unit = {},
+    content: @Composable () -> Unit = {}
+) {
     SaborExpressTheme {
         Surface {
             Scaffold(
@@ -52,9 +71,7 @@ fun App(onFabClick: () -> Unit = {}) {
                 }
             ) { paddingValues ->
                 Box(modifier = Modifier.padding(paddingValues)) {
-                    HomeScreen(
-                        sampleSections
-                    )
+                    content()
                 }
             }
         }
